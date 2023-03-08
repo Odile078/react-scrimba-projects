@@ -29,8 +29,8 @@ function CardsList() {
             price: 50,
             rating: "4.8 (2) . USA",
           },
-        ].map((e, i) => (
-          <Card key={i} {...e} />
+        ].map((card, index) => (
+          <Card key={index} {...card} />
         ))}
       </div>
     </div>
