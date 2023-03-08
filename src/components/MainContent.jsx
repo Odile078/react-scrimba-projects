@@ -9,7 +9,6 @@ function MainContent() {
   });
 
   const getRandomMeme = () => {
-    // let response =await fetch("https://api.imgflip.com/get_memes")
     const memesArray = memeData;
     const randomNumber = Math.floor(Math.random() * memesArray.length);
     const url = memesArray[randomNumber].url;
