@@ -1,6 +1,4 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
+import { useState, useEffect } from "react";
 import Editor from "./components/Editor";
 import SideBar from "./components/SideBar";
 import "react-mde/lib/styles/css/react-mde-all.css";
@@ -9,10 +7,10 @@ import { nanoid } from "nanoid";
 // import { data } from "./data";
 function App() {
   const [openSidebar, setOpenSideBar] = useState(false);
-  const [notes, setNotes] = React.useState(
+  const [notes, setNotes] = useState(
     () => JSON.parse(localStorage.getItem("notes")) || []
   );
-  const [currentNoteId, setCurrentNoteId] = React.useState(
+  const [currentNoteId, setCurrentNoteId] = useState(
     (notes[0] && notes[0].id) || ""
   );
 
