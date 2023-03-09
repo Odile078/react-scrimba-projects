@@ -42,7 +42,7 @@ function SideBar({
                     item?.id === currentNote?.id
                       ? "bg-gray-800 text-white"
                       : "bg-white text-gray-800"
-                  } text-lg text-start p-2 w-full flex justify-between items-center`}
+                  } text-lg text-start p-2 w-full flex justify-between items-center group`}
                 >
                   <button
                     onClick={() => setCurrentNoteId(item?.id)}
@@ -51,7 +51,10 @@ function SideBar({
                     {item?.body?.split("\n")?.[0]}
                     {/* {index + 1} */}
                   </button>
-                  <button onClick={(event) => deleteNote(item?.id)}>
+                  <button
+                    onClick={() => deleteNote(item?.id)}
+                    className="hidden group-hover:block"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -70,9 +73,14 @@ function SideBar({
                 </li>
               ))
             ) : (
-              <li>
-                <p>none found</p>
-                <button onClick={newNote}>+</button>
+              <li className="flex flex-col space-y-4">
+                <p className="text-white bg-gray-800 p-3 text-lg">none found</p>
+                <button
+                  onClick={newNote}
+                  className="text-white text-lg p-1 bg-gray-800 rounded-md"
+                >
+                  +
+                </button>
               </li>
             )}
           </ul>
