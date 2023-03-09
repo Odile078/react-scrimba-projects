@@ -1,4 +1,3 @@
-import React from "react";
 import logo from "../assets/troll-face.svg";
 function Header() {
   return (
