@@ -1,45 +1,61 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import Editor from "./components/Editor";
 import SideBar from "./components/SideBar";
 import "react-mde/lib/styles/css/react-mde-all.css";
 import { data } from "./data/notes";
+import { nanoid } from "nanoid";
 // import { data } from "./data";
 function App() {
   const [openSidebar, setOpenSideBar] = useState(false);
-  const [notes, setNotes] = React.useState(data || []);
+  const [notes, setNotes] = React.useState(
+    () => JSON.parse(localStorage.getItem("notes")) || []
+  );
   const [currentNoteId, setCurrentNoteId] = React.useState(
     (notes[0] && notes[0].id) || ""
   );
 
-  function createNewNote() {
+  const createNewNote = () => {
     const newNote = {
       id: nanoid(),
       body: "# Type your markdown note's title here",
     };
     setNotes((prevNotes) => [newNote, ...prevNotes]);
     setCurrentNoteId(newNote.id);
-  }
+  };
 
-  function updateNote(text) {
-    setNotes((oldNotes) =>
+  const updateNote = (text) => {
+    setNotes((oldNotes) => {
+      let newArray = [];
       oldNotes.map((oldNote) => {
-        return oldNote.id === currentNoteId
-          ? { ...oldNote, body: text }
-          : oldNote;
-      })
-    );
-  }
+        if (oldNote.id === currentNoteId) {
+          newArray.unshift({ ...oldNote, body: text });
+        } else {
+          newArray.push(oldNote);
+        }
+      });
+      return newArray;
+    });
+  };
 
-  function findCurrentNote() {
+  const findCurrentNote = () => {
     return (
       notes.find((note) => {
         return note.id === currentNoteId;
       }) || notes[0]
     );
-  }
-  console.log(notes);
+  };
+
+  const deleteNote = (noteId) => {
+    setNotes((oldNotes) => oldNotes.filter((note) => note.id !== noteId));
+  };
+  const saveNoteToLocalStorage = () =>
+    localStorage.setItem("notes", JSON.stringify(notes));
+
+  useEffect(() => {
+    saveNoteToLocalStorage();
+  }, [notes]);
   return (
     <div className="bg-gray-300 h-screen overflow-hidden ">
       <div className="flex gap-2 ">
@@ -50,6 +66,7 @@ function App() {
           currentNote={findCurrentNote()}
           setCurrentNoteId={setCurrentNoteId}
           newNote={createNewNote}
+          deleteNote={deleteNote}
         />
         <Editor currentNote={findCurrentNote()} updateNote={updateNote} />
       </div>
