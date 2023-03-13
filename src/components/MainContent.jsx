@@ -9,7 +9,10 @@ function MainContent() {
 
   const checkAllDicePicked = (dices) => {
     let remainingDiceList = dices.filter((dice) => dice?.isPicked !== true);
-    if (remainingDiceList?.length === 0) {
+    let allSameValue = dices.every(
+      (dice) => dice.diceValue === dices[0]?.diceValue
+    );
+    if (remainingDiceList?.length === 0 && allSameValue) {
       setAllDicePicked(true);
       console.log("release confetti");
     } else return setAllDicePicked(false);
@@ -22,6 +25,7 @@ function MainContent() {
         isPicked: false,
       });
     }
+    allDicePicked && setAllDicePicked(false);
     setDiceList(newDice);
   };
   const getRandomDiceRemainingList = () => {
