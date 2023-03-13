@@ -8,13 +8,12 @@ function MainContent() {
   const [height, setWindowHeight] = useState(window?.innerHeight);
 
   const checkAllDicePicked = (dices) => {
-    let remainingDiceList = dices.filter((dice) => dice?.isPicked !== true);
+    let remainingDiceList = dices.filter((die) => die.isPicked !== true);
     let allSameValue = dices.every(
-      (dice) => dice.diceValue === dices[0]?.diceValue
+      (die) => die.diceValue === dices[0]?.diceValue
     );
     if (remainingDiceList?.length === 0 && allSameValue) {
       setAllDicePicked(true);
-      console.log("release confetti");
     } else return setAllDicePicked(false);
   };
   const getRandomDiceFullList = (newDiceList) => {
@@ -30,13 +29,13 @@ function MainContent() {
   };
   const getRandomDiceRemainingList = () => {
     let dices = diceList.slice();
-    dices.map((dice, i) =>
-      dice?.isPicked === false
+    dices.map((die, i) =>
+      die.isPicked === false
         ? (dices[i] = {
             diceValue: Math.ceil(Math.random() * 6),
             isPicked: false,
           })
-        : dice
+        : die
     );
     setDiceList(dices);
   };
@@ -45,7 +44,7 @@ function MainContent() {
   };
   const pickDice = (diceIndex) => {
     let dices = diceList.slice();
-    if (diceList[diceIndex]?.isPicked === false) {
+    if (diceList[diceIndex].isPicked === false) {
       dices[diceIndex] = { ...dices[diceIndex], isPicked: true };
       setDiceList(dices);
     } else {
@@ -60,7 +59,7 @@ function MainContent() {
   }, []);
   useEffect(() => {
     const handleWindowResize = () => {
-      setWindowWidth(window.innerWidth);
+      setWindowWidth(window?.innerWidth);
       setWindowHeight(Window?.innerHeight);
     };
 
@@ -72,29 +71,26 @@ function MainContent() {
   }, []);
   return (
     <>
-      {allDicePicked ? (
-        <Confetti width={width} height={height}></Confetti>
-      ) : null}
+      {allDicePicked && <Confetti width={width} height={height}></Confetti>}
       <div className=" relative flex justify-center items-center flex-col gap-5">
         <h1 className="text-gray-800 font-bold text-2xl">Tenzies</h1>
         <p className="text-gray-600 text-sm">
-          Roll until all dice are the same. Click each die to freeze it at its
+          Roll until all die are the same. Click each die to freeze it at its
           current value between rolls.
         </p>
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
-          {diceList?.length > 0
-            ? diceList?.map((item, index) => (
-                <button
-                  key={index}
-                  onClick={() => pickDice(index)}
-                  className={`${
-                    item?.isPicked === true ? "bg-green-400" : "bg-white"
-                  } rounded-md text-center p-5 py-3 text-lg font-bold text-gray-800 drop-shadow-md`}
-                >
-                  {item?.diceValue}
-                </button>
-              ))
-            : null}
+          {diceList?.length &&
+            diceList.map((item, index) => (
+              <button
+                key={index}
+                onClick={() => pickDice(index)}
+                className={`${
+                  item.isPicked === true ? "bg-green-400" : "bg-white"
+                } rounded-md text-center p-5 py-3 text-lg font-bold text-gray-800 drop-shadow-md`}
+              >
+                {item?.diceValue}
+              </button>
+            ))}
         </div>
         <button
           onClick={getRandomDiceList}
