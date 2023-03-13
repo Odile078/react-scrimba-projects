@@ -6,18 +6,6 @@ function MainContent() {
   const [allDicePicked, setAllDicePicked] = useState(false);
   const [width, setWindowWidth] = useState(window?.innerWidth);
   const [height, setWindowHeight] = useState(window?.innerHeight);
-  useEffect(() => {
-    const handleWindowResize = () => {
-      setWindowWidth(window.innerWidth);
-      setWindowHeight(Window?.innerHeight);
-    };
-
-    window.addEventListener("resize", handleWindowResize);
-
-    return () => {
-      window.removeEventListener("resize", handleWindowResize);
-    };
-  }, []);
 
   const checkAllDicePicked = (dices) => {
     let remainingDiceList = dices.filter((dice) => dice?.isPicked !== true);
@@ -66,7 +54,18 @@ function MainContent() {
   useEffect(() => {
     getRandomDiceFullList();
   }, []);
+  useEffect(() => {
+    const handleWindowResize = () => {
+      setWindowWidth(window.innerWidth);
+      setWindowHeight(Window?.innerHeight);
+    };
 
+    window.addEventListener("resize", handleWindowResize);
+
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
+  }, []);
   return (
     <>
       {allDicePicked ? (
