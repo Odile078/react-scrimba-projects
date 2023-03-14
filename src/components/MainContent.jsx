@@ -42,13 +42,13 @@ function MainContent() {
   const getRandomDiceList = () => {
     allDicePicked ? getRandomDiceFullList() : getRandomDiceRemainingList();
   };
-  const pickDice = (diceIndex) => {
+  const pickDice = (dieIndex) => {
     let dices = diceList.slice();
-    if (diceList[diceIndex].isPicked === false) {
-      dices[diceIndex] = { ...dices[diceIndex], isPicked: true };
+    if (diceList[dieIndex].isPicked === false) {
+      dices[dieIndex] = { ...dices[dieIndex], isPicked: true };
       setDiceList(dices);
     } else {
-      dices[diceIndex] = { ...dices[diceIndex], isPicked: false };
+      dices[dieIndex] = { ...dices[dieIndex], isPicked: false };
       setDiceList(dices);
     }
     checkAllDicePicked(dices);
@@ -80,15 +80,15 @@ function MainContent() {
         </p>
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
           {diceList?.length &&
-            diceList.map((item, index) => (
+            diceList.map((die, index) => (
               <button
                 key={index}
                 onClick={() => pickDice(index)}
                 className={`${
-                  item.isPicked === true ? "bg-green-400" : "bg-white"
+                  die.isPicked === true ? "bg-green-400" : "bg-white"
                 } rounded-md text-center p-5 py-3 text-lg font-bold text-gray-800 drop-shadow-md`}
               >
-                {item?.diceValue}
+                {die?.diceValue}
               </button>
             ))}
         </div>
