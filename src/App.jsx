@@ -8,8 +8,8 @@ function App() {
   const [startTest, setStartTest] = useState(false);
 
   return (
-    <div className="min-h-screen bg-brandBlue-lighter">
-      <div className="relative max-w-5xl mx-auto">
+    <div className="min-h-screen bg-brandGray relative">
+      <div className="relative z-10 max-w-5xl mx-auto">
         {startTest ? (
           <Test />
         ) : (
