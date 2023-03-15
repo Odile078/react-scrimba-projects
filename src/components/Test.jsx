@@ -1,33 +1,38 @@
-import React, { useEffect, useState } from "react";
+import _ from "lodash";
+import { useEffect, useState } from "react";
 
 function Test() {
   const [questions, setQuestions] = useState([]);
   const [showAnswers, setShowAnswers] = useState(false);
   const [correctAnswers, setCorrectAnswers] = useState(null);
   const getQuestions = async () => {
-    const response = await fetch(
-      "https://opentdb.com/api.php?amount=5&category=29&type=multiple"
-    )
-      .then((response) => response.json())
-      .catch((err) => console.log("err", err));
+    let questionsList = [];
+    try {
+      const response = await fetch(
+        "https://opentdb.com/api.php?amount=5&category=29&type=multiple"
+      );
 
-    let questionsList = response?.results;
-    if (questionsList) {
-      let newQuestions = questionsList?.map((question, index) => {
-        let modifiedQuestion = {
-          ...question,
-          incorrect_answers: [
-            ...question?.incorrect_answers,
-            question?.correct_answer,
-          ],
-          picked_answer: null,
-        };
+      questionsList = await response.json();
+    } catch (err) {
+      console.log("err", err);
+    } finally {
+      if (questionsList?.results) {
+        let newQuestions = questionsList.results.map((question, index) => {
+          let modifiedQuestion = {
+            ...question,
+            incorrect_answers: _.shuffle([
+              ...question?.incorrect_answers,
+              question?.correct_answer,
+            ]),
+            picked_answer: null,
+          };
 
-        return modifiedQuestion;
-      });
+          return modifiedQuestion;
+        });
 
-      setQuestions(newQuestions);
-    } else setQuestions([]);
+        setQuestions(newQuestions);
+      } else return setQuestions(questionsList);
+    }
   };
 
   const pickAnswer = (
@@ -98,10 +103,7 @@ function Test() {
                             : "bg-transparent"
                           : question_item?.picked_answer
                           ? question_item?.picked_answer?.id === answer_index
-                            ? question_item?.correct_answer ===
-                              question_item?.picked_answer?.answer
-                              ? "bg-green-400"
-                              : "bg-brandBlue-light"
+                            ? "bg-brandBlue-light"
                             : "bg-transparent"
                           : "bg-transparent"
                       }`}

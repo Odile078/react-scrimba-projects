@@ -1,5 +1,3 @@
-import React from "react";
-
 function Home({ setStartTest }) {
   return (
     <div className="flex flex-col min-h-screen items-center justify-center gap-6">
