@@ -1,34 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
-
+import { useState } from "react";
+import Home from "./components/Home";
+import Test from "./components/Test";
+import yellowBlob from "./assets/images/blobs-yellow.png";
+import blueBlob from "./assets/images/blobs-blue.png";
 function App() {
-  const [count, setCount] = useState(0)
+  const [startTest, setStartTest] = useState(false);
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="min-h-screen bg-brandGray relative">
+      <div className="relative z-10 max-w-5xl mx-auto">
+        {startTest ? (
+          <Test />
+        ) : (
+          <Home startTest={startTest} setStartTest={setStartTest} />
+        )}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <img
+        src={yellowBlob}
+        alt="blob yellow"
+        className="object-cover object-center absolute top-0 right-0"
+      />
+      <img
+        src={blueBlob}
+        alt="blob blue"
+        className="object-cover object-center absolute bottom-0 left-0"
+      />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
